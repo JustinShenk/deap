@@ -1,4 +1,4 @@
-# Fork of [DEAP](https://github.com/DEAP/deap) to replace Python random modules with Numpy random to keep consistent seed across Python 2 and 3
+# Fork of [DEAP](https://github.com/DEAP/deap) to replace Python random modules with Numpy random to keep consistent seed across Python 2 and 3 (Development stage)
 
 Note: An explanation of the issue is available [here](https://github.com/DEAP/deap/issues/138).
 

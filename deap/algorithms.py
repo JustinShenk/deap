@@ -27,20 +27,22 @@ you really want them to do.
 
 from __future__ import print_function
 import numpy
+from os import environ
 import tools
 
-try:
-    import mkl_random
-    import random
-    import numpy.random
-    mkl_random.seed(64)
-    random.uniform = mkl_random.uniform
-    random.gauss = mkl_random.normal
-    numpy.random.uniform = mkl_random.uniform
-    numpy.random.normal = mkl_random.normal
-    print("Using mkl_random methods.")
-except:
-    print("Import failed: `mkl_random` not installed. Install it with `pip install mkl-random`")
+if environ.get('MKL_RANDOM'):
+    try:
+        import mkl_random
+        import random
+        import numpy.random
+        mkl_random.seed(64)
+        random.uniform = mkl_random.uniform
+        random.gauss = mkl_random.normal
+        numpy.random.uniform = mkl_random.uniform
+        numpy.random.normal = mkl_random.normal
+        print("Using mkl_random methods.")
+    except:
+        print("Import failed: `mkl_random` not installed. Install it with `pip install mkl-random`")
 
 
 def varAnd(population, toolbox, cxpb, mutpb):

@@ -31,4 +31,14 @@ pip install deap
 
 Run the script `python benchmark_mkl.py knapsack 1` to run the knapsack.py with various `lambda` parameters for 4 iterations. The `1` is a binary argument specifying whether the current environment is using the `numpy` random module or not. For the `deap-base` enviroment, run the command with `python benchmark_mkl.py knapsack 0`.
 
+## Plot the results with the Jupyter notebook
+
+Install seaborn, pandas and matplotlib for visualizing:
+
+`pip install -r requirements.txt`
+
+Open the notebook: `jupyter notebook`.
+
 ## Results
+
+![benchmark_knapsack.png](benchmark_knapsack.png)

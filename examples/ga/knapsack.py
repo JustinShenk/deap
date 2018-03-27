@@ -14,16 +14,27 @@
 #    License along with DEAP. If not, see <http://www.gnu.org/licenses/>.
 
 import random
+import sys
 
 import numpy
+
+
+# if 'intel' in sys.argv[1:]:
+# print("Using mkl_random methods.")
+# import mkl_random
+# mkl_random.seed(64)
+# random.uniform = mkl_random.uniform
+# random.gauss = mkl_random.normal
+# numpy.random.uniform = mkl_random.uniform
+# numpy.random.normal = mkl_random.normal
 
 from deap import algorithms
 from deap import base
 from deap import creator
 from deap import tools
 
-IND_INIT_SIZE = 5
-MAX_ITEM = 50
+IND_INIT_SIZE = 25
+MAX_ITEM = 200
 MAX_WEIGHT = 50
 NBR_ITEMS = 20
 
@@ -80,19 +91,21 @@ def mutSet(individual):
         individual.add(random.randrange(NBR_ITEMS))
     return individual,
 
+
 toolbox.register("evaluate", evalKnapsack)
 toolbox.register("mate", cxSet)
 toolbox.register("mutate", mutSet)
 toolbox.register("select", tools.selNSGA2)
 
-def main():
+
+def main(LAMBDA=5000):
     random.seed(64)
-    NGEN = 50
-    MU = 50
-    LAMBDA = 100
+    NGEN = 5
+    MU = 150  # survivors
+    LAMBDA = LAMBDA  # offspring
     CXPB = 0.7
     MUTPB = 0.2
-    
+
     pop = toolbox.population(n=MU)
     hof = tools.ParetoFront()
     stats = tools.Statistics(lambda ind: ind.fitness.values)
@@ -100,11 +113,12 @@ def main():
     stats.register("std", numpy.std, axis=0)
     stats.register("min", numpy.min, axis=0)
     stats.register("max", numpy.max, axis=0)
-    
+
     algorithms.eaMuPlusLambda(pop, toolbox, MU, LAMBDA, CXPB, MUTPB, NGEN, stats,
-                              halloffame=hof)
-    
-    return pop, stats, hof
-                 
+                              halloffame=hof, verbose=False)
+
+    return
+
+
 if __name__ == "__main__":
-    main()                 
+    main()

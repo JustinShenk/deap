@@ -1,28 +1,32 @@
 # Benchmarking Intel's Math Kernel Library-based Numpy psuedo-random number generator in evolutionary algorithms
 
-DEAP is an evolutionary algorithm library. The master branch uses base Python pseudo-random number generator. A Numpy variant was introduced into the branch `numpy-random` which guarantees consistent seeding.
+DEAP is an evolutionary algorithm library. The master branch uses base Python pseudo-random number generator. A Numpy variant was introduced into the branch `numpy-random` which guarantees consistent seeding (see [issue #138](https://github.com/DEAP/deap/issues/138) for more information).
 
-This `numpy-random-mkl` branch patches the numpy.random.uniform and other methods with the `mkl_random` methods, designed for Intel hardware, and improving speed up to 25% in the knapsack problem.
+This `numpy-random-mkl` branch patches the `numpy.random.uniform` and other methods with the `mkl_random` methods, designed for Intel hardware, and improving speed up to 25% in the knapsack problem, for example.
+
+## How it works
+
+When `deap.algorithms` is loaded, if `MKL_RANDOM` is in the user's environment, numpy and base Python random methods are patched with the MKL methods.
 
 ## Benchmarking setup
 
-Create two Python environments:
+Create two Python2 environments:
 
-MKL-based random:
+Intel MKL numpy and other dependencies:
 
 ```bash
 conda create -n deap-mkl python=2 -c intel mkl_random
 pip install git+https://github.com/JustinShenk/deap.git@numpy-random-mkl
 ```
 
-Numpy random:
+Numpy-only setup:
 
 ```bash
 conda create -n deap-numpy python=2
 pip install git+https://github.com/JustinShenk/deap.git@numpy-random-mkl
 ```
 
-Optional third environment can test the base (non-Numpy) random module:
+Optional third environment can test the base Python random module:
 
 ```bash
 conda create -n deap-base python=2
@@ -40,5 +44,7 @@ Install seaborn, pandas and matplotlib for visualizing:
 Open the notebook: `jupyter notebook`.
 
 ## Results
+
+Knapsack problem with varying lambdas (number of individuals produced in each generation): 
 
 ![benchmark_knapsack.png](benchmark_knapsack.png)
